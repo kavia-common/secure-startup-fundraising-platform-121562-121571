@@ -11,6 +11,9 @@ import { NotificationsCenter } from '../modules/notifications/NotificationsCente
 import { AdminPanel } from '../modules/admin/AdminPanel';
 import { TierGuard } from '../modules/common/TierGuard';
 import { SignInMagicLink } from '../modules/auth/SignInMagicLink';
+import { RoleLogin } from '../modules/auth/RoleLogin';
+import { AdminLogin } from '../modules/auth/AdminLogin';
+import { Signup } from '../modules/auth/Signup';
 import AuthCallback from '../modules/auth/AuthCallback';
 import AuthError from '../modules/auth/AuthError';
 
@@ -43,7 +46,10 @@ export function AppRouter({ onToggleTheme }) {
                 <AdminPanel />
               </TierGuard>
             } />
-            <Route path="/auth" element={<SignInMagicLink />} />
+            <Route path="/auth" element={<RoleLogin />} />
+            <Route path="/auth/login" element={<RoleLogin />} />
+            <Route path="/auth/admin" element={<AdminLogin />} />
+            <Route path="/auth/signup" element={<Signup />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/auth/error" element={<AuthError />} />
             <Route path="*" element={<div className="card">Not Found</div>} />

@@ -48,11 +48,18 @@ export function AuthProvider({ children }) {
   /** PUBLIC_INTERFACE
    * Initiates passwordless email magic link sign-in.
    * Uses optional REACT_APP_SITE_URL override, falling back to window.location.origin.
+   * Accepts an optional options.next path to carry an intended redirect (e.g., '/admin' or '/dashboard').
    */
-  const signInWithEmail = async (email) => {
+  const signInWithEmail = async (email, options = {}) => {
     // Always include a callback path; getURL() provides a normalized origin + trailing slash
     const { getURL } = await import('../../utils/getURL');
-    const redirectTo = `${getURL()}auth/callback`;
+    let redirectTo = `${getURL()}auth/callback`;
+
+    // If a next param is provided, append it to the callback so the AuthCallback can route appropriately
+    if (options?.next) {
+      const encNext = encodeURIComponent(options.next);
+      redirectTo = `${redirectTo}?next=${encNext}`;
+    }
 
     const { error } = await supabase.auth.signInWithOtp({
       email,

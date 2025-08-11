@@ -5,7 +5,12 @@ import { useAuth } from './AuthContext';
  * PUBLIC_INTERFACE
  * SignInMagicLink renders a simple form to collect an email and trigger a magic link.
  */
-export function SignInMagicLink() {
+export function SignInMagicLink({
+  next = '',
+  heading = 'Sign in',
+  description = 'Use your email to receive a magic link. No password required.',
+  buttonLabel = 'Send magic link'
+}) {
   const { signInWithEmail } = useAuth();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState({ loading: false, message: '' });
@@ -14,7 +19,7 @@ export function SignInMagicLink() {
     e.preventDefault();
     setStatus({ loading: true, message: '' });
     try {
-      await signInWithEmail(email);
+      await signInWithEmail(email, { next });
       setStatus({
         loading: false,
         message: 'Magic link sent! Check your email to continue.'
@@ -28,9 +33,9 @@ export function SignInMagicLink() {
 
   return (
     <div className="card" aria-live="polite">
-      <h2 className="mb-12">Sign in</h2>
+      <h2 className="mb-12">{heading}</h2>
       <p className="muted mb-16">
-        Use your email to receive a magic link. No password required.
+        {description}
       </p>
       <form onSubmit={onSubmit}>
         <label className="sr-only" htmlFor="email">Email</label>
@@ -52,7 +57,7 @@ export function SignInMagicLink() {
           }}
         />
         <button className="btn" type="submit" disabled={status.loading}>
-          {status.loading ? 'Sending...' : 'Send magic link'}
+          {status.loading ? 'Sending...' : buttonLabel}
         </button>
       </form>
       {status.message ? <p className="mt-16">{status.message}</p> : null}

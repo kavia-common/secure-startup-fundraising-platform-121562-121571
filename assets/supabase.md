@@ -307,6 +307,19 @@ Issue: Magic link redirects back but user is not logged in.
 - Confirm REACT_APP_SITE_URL (optional) is set correctly in production builds.
 - Verify that the /auth/callback route exists and exchangeCodeForSession runs.
 
+New: Role-aware redirects and admin login
+- Magic link requests can include an intended next path that is appended to the callback URL, e.g.:
+  emailRedirectTo = `${getURL()}auth/callback?next=/admin`
+- The Auth callback will:
+  1) Exchange the code for a session.
+  2) Fetch the user's profile role from public.profiles.
+  3) If no profile exists, send the user to /auth/signup (preserving ?next=...).
+  4) If role=admin, route to /admin; else honor ?next=...; else route founders to /dashboard and investors to /.
+- New routes for discoverability:
+  - /auth (or /auth/login): role-oriented sign-in (Investor, Founder) using magic links.
+  - /auth/admin: dedicated admin magic link entry point.
+  - /auth/signup: simple role selection (founder/investor) to create a profile record.
+
 Issue: 401/403 when requesting signed URLs.
 - Confirm the user’s tier and NDA signature state.
 - Ensure policies and grants exist and get_user_tier returns expected values.
