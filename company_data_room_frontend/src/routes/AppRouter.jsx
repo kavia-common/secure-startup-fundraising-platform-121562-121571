@@ -11,6 +11,8 @@ import { NotificationsCenter } from '../modules/notifications/NotificationsCente
 import { AdminPanel } from '../modules/admin/AdminPanel';
 import { TierGuard } from '../modules/common/TierGuard';
 import { SignInMagicLink } from '../modules/auth/SignInMagicLink';
+import AuthCallback from '../modules/auth/AuthCallback';
+import AuthError from '../modules/auth/AuthError';
 
 /**
  * PUBLIC_INTERFACE
@@ -42,6 +44,8 @@ export function AppRouter({ onToggleTheme }) {
               </TierGuard>
             } />
             <Route path="/auth" element={<SignInMagicLink />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/auth/error" element={<AuthError />} />
             <Route path="*" element={<div className="card">Not Found</div>} />
           </Routes>
         </Layout>

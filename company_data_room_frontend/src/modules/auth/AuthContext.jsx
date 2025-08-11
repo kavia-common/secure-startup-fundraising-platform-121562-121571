@@ -50,9 +50,9 @@ export function AuthProvider({ children }) {
    * Uses optional REACT_APP_SITE_URL override, falling back to window.location.origin.
    */
   const signInWithEmail = async (email) => {
-    const redirectTo =
-      process.env.REACT_APP_SITE_URL ||
-      (typeof window !== 'undefined' ? window.location.origin : undefined);
+    // Always include a callback path; getURL() provides a normalized origin + trailing slash
+    const { getURL } = await import('../../utils/getURL');
+    const redirectTo = `${getURL()}auth/callback`;
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
