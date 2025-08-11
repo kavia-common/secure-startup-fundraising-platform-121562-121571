@@ -1,104 +1,225 @@
-/* CSS Variables for Theme Management */
+/* Theme variables (Light by default) */
 :root {
-  /* Light theme colors */
+  --color-primary: #2563eb; /* primary */
+  --color-secondary: #e5e7eb; /* secondary */
+  --color-accent: #facc15; /* accent */
+
   --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
+  --bg-secondary: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --border-color: #e2e8f0;
+
+  --card-bg: #ffffff;
+  --muted-bg: #f1f5f9;
+
+  --link: var(--color-primary);
+  --link-hover: #1d4ed8;
+
+  --button-bg: var(--color-primary);
   --button-text: #ffffff;
+
+  --sidebar-bg: #ffffff;
+  --sidebar-text: #0f172a;
+  --topbar-bg: #ffffff;
+  --topbar-text: #0f172a;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 [data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
+  --bg-primary: #0b1220;
+  --bg-secondary: #0f172a;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --border-color: #1f2937;
+
+  --card-bg: #111827;
+  --muted-bg: #0f172a;
+
+  --sidebar-bg: #0f172a;
+  --sidebar-text: #f8fafc;
+  --topbar-bg: #0b1220;
+  --topbar-text: #f8fafc;
+
+  --button-bg: #1d4ed8;
   --button-text: #ffffff;
+
+  --link: #60a5fa;
+  --link-hover: #93c5fd;
 }
 
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
+/* Global */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg-primary);
   color: var(--text-primary);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* App Shell */
+.app-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 64px 1fr;
+  grid-template-areas:
+    "sidebar topbar"
+    "sidebar content";
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background: var(--bg-primary);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.sidebar {
+  grid-area: sidebar;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  border-right: 1px solid var(--border-color);
+  padding: 16px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.topbar {
+  grid-area: topbar;
+  background: var(--topbar-bg);
+  color: var(--topbar-text);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
 }
 
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+.content {
+  grid-area: content;
+  padding: 20px;
+  background: var(--bg-secondary);
+}
+
+/* Sidebar Navigation */
+.nav {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  gap: 6px;
+  margin-top: 12px;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+.nav a {
+  text-decoration: none;
+  color: var(--sidebar-text);
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav a.active {
+  background: var(--muted-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.nav a:hover {
+  background: var(--muted-bg);
+}
+
+/* Cards and modules */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+/* Buttons */
+.btn {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+.btn:hover { opacity: 0.95; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn.secondary { background: var(--color-secondary); color: var(--text-primary); }
+
+/* Topbar actions */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
+  background: var(--muted-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 10px 20px;
+  padding: 8px 12px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+.theme-toggle:hover { opacity: 0.9; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-secondary);
+  color: var(--text-primary);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid var(--border-color);
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
-}
+/* Links */
+a { color: var(--link); }
+a:hover { color: var(--link-hover); }
 
-.theme-toggle:active {
-  transform: translateY(0);
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Responsive */
+@media (max-width: 1024px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "topbar"
+      "content";
   }
-  to {
-    transform: rotate(360deg);
+  .sidebar {
+    display: none; /* simple collapse for baseline */
   }
+  .content { padding: 16px; }
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
-  }
+/* Utility */
+.muted { color: var(--text-secondary); }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mt-16 { margin-top: 16px; }
+.center { display: flex; align-items: center; justify-content: center; }
+
+/* Accessibility helpers */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+  border: 0;
 }

@@ -1,49 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { AppRouter } from './routes/AppRouter';
 
-// PUBLIC_INTERFACE
-function App() {
+/**
+ * PUBLIC_INTERFACE
+ * App is the root component. It manages theme (light/dark) and renders the application router.
+ * It sets the data-theme attribute on the document to enable CSS variable-based theming.
+ */
+export default function App() {
   const [theme, setTheme] = useState('light');
 
-  // Effect to apply theme to document element
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  // PUBLIC_INTERFACE
+  /** PUBLIC_INTERFACE
+   * Toggles the theme between light and dark modes.
+   */
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppRouter theme={theme} onToggleTheme={toggleTheme} />
   );
 }
-
-export default App;
